@@ -1,0 +1,19 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@import url('https://fonts.googleapis.com/css?family=Merriweather:400,400i,700,700i,900,900i');
+
+* { 
+  box-sizing: border-box; 
+}
+
+body { 
+  font-family: 'Merriweather', serif;
+  height: 100%;
+  margin:0;
+  padding:0;
+  background: linear-gradient(45deg, #B7FFCB, #B7FFE7)
+}
+
+#map { height: 180px; }
