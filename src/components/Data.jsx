@@ -42,7 +42,7 @@ export default function Data() {
       {url.pathname === "/" ? (
         <Screen1 capitals={capitals} countries={countries} />
       ) : (
-        <Screen2 capitals={capitals} />
+        <Screen2 capitals={capitals} countries={countries} />
       )}
     </>
   );

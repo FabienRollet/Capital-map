@@ -61,7 +61,7 @@ export default function Screen1({ countries, capitals }) {
   return (
     <main className="flex flex-col items-center">
       <h1 className="text-xl text-center mb-8 font-bold">
-        Capitales d'Europe
+        Carte des capitales
       </h1>
       <div id="map" className="w-screen h-96"></div>
     </main>
