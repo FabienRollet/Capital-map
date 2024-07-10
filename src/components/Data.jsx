@@ -6,7 +6,7 @@ import Screen2 from "../pages/Screen2";
 
 export default function Data() {
   const url = useLocation();
-  const countries = [
+  const initialCountries = [
     { name: "France", pop: 67, latitude: 48.866, longitude: 2.333 },
     { name: "United Kingdom", pop: 66, latitude: 51.507, longitude: -0.127 },
     { name: "Belgium", pop: 11, latitude: 50.85, longitude: 4.351 },
@@ -14,7 +14,18 @@ export default function Data() {
     { name: "Germany", pop: 83, latitude: 52.520, longitude: 13.404 },
   ];
 
+  const [countries, setCountries] = useState(initialCountries);
   const [capitals, setCapitals] = useState([]);
+
+  const addCountry = (newCountry) => {
+    setCountries([...countries, newCountry]);
+  };
+
+  const updateCountry = (updatedCountry) => {
+    setCountries(countries.map(country => 
+      country.name === updatedCountry.name ? updatedCountry : country
+    ));
+  };
 
   useEffect(() => {
     const fetchCapitals = async () => {
@@ -35,14 +46,14 @@ export default function Data() {
       }
     };
     fetchCapitals();
-  }, []);
+  }, [countries]);
 
   return (
     <>
       {url.pathname === "/" ? (
         <Screen1 capitals={capitals} countries={countries} />
       ) : (
-        <Screen2 capitals={capitals} countries={countries} />
+        <Screen2 capitals={capitals} countries={countries} addCountry={addCountry} updateCountry={updateCountry} />
       )}
     </>
   );

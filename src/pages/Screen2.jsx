@@ -1,11 +1,20 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
 
-export default function Screen2({ countries, capitals }) {
-  const [editingCountry, setEditingCountry] = useState(null);
+export default function Screen2({
+  countries,
+  capitals,
+  updateCountry,
+  addCountry,
+}) {
+  const [editingCountry, setEditingCountry] = useState("");
   const [editedPopulation, setEditedPopulation] = useState("");
   const [editedLatitude, setEditedLatitude] = useState("");
   const [editedLongitude, setEditedLongitude] = useState("");
+  const [addedName, setAddedName] = useState("");
+  const [addedPopulation, setAddedPopulation] = useState("");
+  const [addedLatitude, setAddedLatitude] = useState("");
+  const [addedLongitude, setAddedLongitude] = useState("");
 
   const handleEdit = (countryName) => {
     const countryInfo = countries.find((c) => c.name === countryName);
@@ -19,38 +28,77 @@ export default function Screen2({ countries, capitals }) {
 
   const handleSave = () => {
     if (editingCountry) {
-      const updatedCountries = countries.map((c) => {
-        if (c.name === editingCountry.name) {
-          return {
-            ...c,
-            pop: parseInt(editedPopulation),
-            latitude: parseFloat(editedLatitude),
-            longitude: parseFloat(editedLongitude),
-          };
-        }
-        return c;
-      });
-      // Mettre à jour le tableau countries avec les informations modifiées
-      // Cela peut être fait en passant une fonction de mise à jour dans les props
-      // ou en utilisant un hook de mise à jour d'état s'il est géré au niveau supérieur
-      console.log("Pays mis à jour :", updatedCountries);
-      // Exemple d'une fonction de mise à jour passée par les props
-      // updateCountries(updatedCountries);
+      const updatedCountry = {
+        ...editingCountry,
+        pop: parseInt(editedPopulation),
+        latitude: parseFloat(editedLatitude),
+        longitude: parseFloat(editedLongitude),
+      };
+      updateCountry(updatedCountry);
+      setEditingCountry(null);
+    } else {
+      const newCountry = {
+        name: addedName,
+        pop: parseInt(addedPopulation),
+        latitude: parseFloat(addedLatitude),
+        longitude: parseFloat(addedLongitude),
+      };
+      addCountry(newCountry);
+      setAddedName("");
+      setAddedPopulation("");
+      setAddedLatitude("");
+      setAddedLongitude("");
     }
-    // Réinitialiser l'état de l'édition
-    setEditingCountry(null);
   };
-
-  if (!countries || !capitals) {
-    return <div>Loading...</div>;
-  }
 
   return (
     <main>
       <h1 className="text-xl text-center mb-8 font-bold">
         Liste des pays et de leurs informations correspondantes :
       </h1>
-      <ul className="flex flex-wrap hoverCard mx-10">
+      <ul className="invisible group mx-10 [&>*]:visible [&>*]:max-w-[15rem] [&>*]:bg-white [&>*]:p-4 flex flex-wrap justify-center [&>*]:flex-auto [&>*]:m-1 [&>*]:text-center [&>*]:text-[#bb1d1d] [&>*]:no-underline">
+        <form className="flex flex-col mt-10 items-center [&>input]:text-center [&>input]:border-2 [&>input]:border-rose-600 rounded">
+          <h2>Ajouter une capitale</h2>
+          <label htmlFor="name">Nom du pay:</label>
+          <input
+            type="text"
+            id="name"
+            value={addedName}
+            onChange={(e) => setAddedName(e.target.value)}
+            placeholder="Ex : Japan"
+          />
+          <label htmlFor="population">Population (en million) :</label>
+          <input
+            type="text"
+            id="population"
+            value={addedPopulation}
+            onChange={(e) => setAddedPopulation(e.target.value)}
+            placeholder="Ex : 14"
+          />
+          <label htmlFor="latitude">Latitude :</label>
+          <input
+            type="text"
+            id="latitude"
+            value={addedLatitude}
+            onChange={(e) => setAddedLatitude(e.target.value)}
+            placeholder="Ex : 34.886"
+          />
+          <label htmlFor="longitude">Longitude :</label>
+          <input
+            type="text"
+            id="longitude"
+            value={addedLongitude}
+            onChange={(e) => setAddedLongitude(e.target.value)}
+            placeholder="Ex : 134.379"
+          />
+          <button
+            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 mr-2"
+            onClick={handleSave}
+            type="button"
+          >
+            Enregistrer
+          </button>
+        </form>
         {capitals.map((country) => {
           const countryInfo = countries.find((c) => c.name === country.name);
           return (
@@ -58,17 +106,12 @@ export default function Screen2({ countries, capitals }) {
               <ul className="[&>*:first-child]:font-bold">
                 <li>{country.name}</li>
                 <li>Capitale : {country.capital}</li>
-                <li>
-                  Population :{" "}
-                  {countryInfo ? `${countryInfo.pop} millions` : "N/A"}
-                </li>
-                <li>Latitude : {countryInfo ? countryInfo.latitude : "N/A"}</li>
-                <li>
-                  Longitude : {countryInfo ? countryInfo.longitude : "N/A"}
-                </li>
+                <li>Population : {`${countryInfo.pop} millions`}</li>
+                <li>Latitude : {countryInfo.latitude}</li>
+                <li>Longitude : {countryInfo.longitude}</li>
               </ul>
               {editingCountry && editingCountry.name === country.name ? (
-                <form className="flex flex-col mt-10 items-center [&>input]:text-center [&>input]:border-2 [&>input]:border-rose-600 [&>input]:rounded">
+                <form className=" [&>input]:text-center [&>input]:border-2 [&>input]:border-rose-600 [&>input]:rounded">
                   <label htmlFor="population">Population :</label>
                   <input
                     type="text"
@@ -96,12 +139,14 @@ export default function Screen2({ countries, capitals }) {
                   <button
                     className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 mr-2"
                     onClick={handleSave}
+                    type="button"
                   >
                     Enregistrer
                   </button>
                   <button
                     className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-2"
                     onClick={() => setEditingCountry(null)}
+                    type="button"
                   >
                     Annuler
                   </button>
@@ -139,4 +184,5 @@ Screen2.propTypes = {
       iso3: PropTypes.string.isRequired,
     })
   ).isRequired,
+  updateCountry: PropTypes.func.isRequired,
 };

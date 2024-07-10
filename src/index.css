@@ -40,39 +40,6 @@ body {
   align-items: center;
 }
 
-.hoverCard > * {
-  background: white;
-  padding: 1em;
-  flex: auto;
-  margin: 0.3em;
-  text-align: center;
-  color: #bb1d1d;
-  text-decoration: none;
-}
-
-.hoverCard {
-  visibility: hidden;
-}
-
-.hoverCard > * {
-  visibility: visible;
-}
-
-.hoverCard > * {
-  transition: opacity 150ms linear 100ms, transform 150ms ease-in-out 100ms;
-}
-
-.hoverCard:hover > * {
-  opacity: 0.4;
-  transform: scale(0.9);
-}
-
-.hoverCard > *:hover {
-  opacity: 1;
-  transform: scale(1);
-  transition-delay: 0ms, 0ms;
-}
-
 @media only screen and (min-width: 768px) {
   #map {
     height: 20rem;
