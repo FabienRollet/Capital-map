@@ -24,22 +24,6 @@ body {
   width: 100%;
 }
 
-.btn {
-  background: white;
-  border-radius: 200px;
-  background-image: radial-gradient(
-    circle at bottom center,
-    #ffc837 15px,
-    #ff8008
-  );
-  box-shadow: 0 10px 10px -5px rgba(0, 0, 0, 0.2);
-  height: 6rem;
-  width: 6rem;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
 @media only screen and (min-width: 768px) {
   #map {
     height: 20rem;

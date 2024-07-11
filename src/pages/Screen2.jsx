@@ -1,20 +1,49 @@
 import { useState } from "react";
 import PropTypes from "prop-types";
+import CountryForm from "../components/CountryForm";
 
 export default function Screen2({
   countries,
   capitals,
   updateCountry,
   addCountry,
+  handleDelete, // Add handleDelete prop
 }) {
-  const [editingCountry, setEditingCountry] = useState("");
+  const [editingCountry, setEditingCountry] = useState(null);
   const [editedPopulation, setEditedPopulation] = useState("");
   const [editedLatitude, setEditedLatitude] = useState("");
   const [editedLongitude, setEditedLongitude] = useState("");
-  const [addedName, setAddedName] = useState("");
+  const [addedCountry, setAddedCountry] = useState("");
   const [addedPopulation, setAddedPopulation] = useState("");
   const [addedLatitude, setAddedLatitude] = useState("");
   const [addedLongitude, setAddedLongitude] = useState("");
+
+  const fields = [
+    {
+      htmlFor: "population",
+      text: "Population :",
+      type: "text",
+      id: "population",
+      value: editedPopulation,
+      onChange: (e) => setEditedPopulation(e.target.value),
+    },
+    {
+      htmlFor: "latitude",
+      text: "Latitude :",
+      type: "text",
+      id: "latitude",
+      value: editedLatitude,
+      onChange: (e) => setEditedLatitude(e.target.value),
+    },
+    {
+      htmlFor: "longitude",
+      text: "Longitude :",
+      type: "text",
+      id: "longitude",
+      value: editedLongitude,
+      onChange: (e) => setEditedLongitude(e.target.value),
+    },
+  ];
 
   const handleEdit = (countryName) => {
     const countryInfo = countries.find((c) => c.name === countryName);
@@ -26,7 +55,7 @@ export default function Screen2({
     }
   };
 
-  const handleSave = () => {
+  const handleNewInfo = () => {
     if (editingCountry) {
       const updatedCountry = {
         ...editingCountry,
@@ -38,13 +67,13 @@ export default function Screen2({
       setEditingCountry(null);
     } else {
       const newCountry = {
-        name: addedName,
+        name: addedCountry,
         pop: parseInt(addedPopulation),
         latitude: parseFloat(addedLatitude),
         longitude: parseFloat(addedLongitude),
       };
       addCountry(newCountry);
-      setAddedName("");
+      setAddedCountry("");
       setAddedPopulation("");
       setAddedLatitude("");
       setAddedLongitude("");
@@ -53,18 +82,21 @@ export default function Screen2({
 
   return (
     <main>
-      <h1 className="text-xl text-center mb-8 font-bold">
+      <h1 className="text-xl text-center font-bold">
         Liste des pays et de leurs informations correspondantes :
       </h1>
-      <ul className="invisible group mx-10 [&>*]:visible [&>*]:max-w-[15rem] [&>*]:bg-white [&>*]:p-4 flex flex-wrap justify-center [&>*]:flex-auto [&>*]:m-1 [&>*]:text-center [&>*]:text-[#bb1d1d] [&>*]:no-underline">
-        <form className="flex flex-col mt-10 items-center [&>input]:text-center [&>input]:border-2 [&>input]:border-rose-600 rounded">
-          <h2>Ajouter une capitale</h2>
-          <label htmlFor="name">Nom du pay:</label>
+      <p className="text-xl text-center mb-8">
+      (L&apos;ajout d&apos;un pays doit se faire avec le nom en anglais)
+      </p>
+      <ul className="invisible group mx-10 [&>*]:visible [&>*]:max-w-[15rem] [&>*]:bg-white [&>*]:p-4 flex flex-wrap justify-center [&>*]:flex-auto [&>*]:m-1 [&>*]:text-center [&>*]:no-underline">
+        <form className="flex flex-col mt-10 items-center [&>input]:text-center [&>input]:border-2 [&>input]:border-neutral-600 rounded">
+          <h2 className="font-bold">Ajouter une capitale</h2>
+          <label htmlFor="name">Nom du pays:</label>
           <input
             type="text"
             id="name"
-            value={addedName}
-            onChange={(e) => setAddedName(e.target.value)}
+            value={addedCountry}
+            onChange={(e) => setAddedCountry(e.target.value)}
             placeholder="Ex : Japan"
           />
           <label htmlFor="population">Population (en million) :</label>
@@ -93,7 +125,7 @@ export default function Screen2({
           />
           <button
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 mr-2"
-            onClick={handleSave}
+            onClick={handleNewInfo}
             type="button"
           >
             Enregistrer
@@ -106,51 +138,23 @@ export default function Screen2({
               <ul className="[&>*:first-child]:font-bold">
                 <li>{country.name}</li>
                 <li>Capitale : {country.capital}</li>
-                <li>Population : {`${countryInfo.pop} millions`}</li>
-                <li>Latitude : {countryInfo.latitude}</li>
-                <li>Longitude : {countryInfo.longitude}</li>
+                <li>
+                  Population :{" "}
+                  {countryInfo ? `${countryInfo.pop} millions` : "N/A"}
+                </li>
+                <li>Latitude : {countryInfo ? countryInfo.latitude : "N/A"}</li>
+                <li>
+                  Longitude : {countryInfo ? countryInfo.longitude : "N/A"}
+                </li>
               </ul>
               {editingCountry && editingCountry.name === country.name ? (
-                <form className=" [&>input]:text-center [&>input]:border-2 [&>input]:border-rose-600 [&>input]:rounded">
-                  <label htmlFor="population">Population :</label>
-                  <input
-                    type="text"
-                    id="population"
-                    value={editedPopulation}
-                    onChange={(e) => setEditedPopulation(e.target.value)}
-                    placeholder="Population"
-                  />
-                  <label htmlFor="latitude">Latitude :</label>
-                  <input
-                    type="text"
-                    id="latitude"
-                    value={editedLatitude}
-                    onChange={(e) => setEditedLatitude(e.target.value)}
-                    placeholder="Latitude"
-                  />
-                  <label htmlFor="longitude">Longitude :</label>
-                  <input
-                    type="text"
-                    id="longitude"
-                    value={editedLongitude}
-                    onChange={(e) => setEditedLongitude(e.target.value)}
-                    placeholder="Longitude"
-                  />
-                  <button
-                    className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2 mr-2"
-                    onClick={handleSave}
-                    type="button"
-                  >
-                    Enregistrer
-                  </button>
-                  <button
-                    className="bg-gray-500 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded mt-2"
-                    onClick={() => setEditingCountry(null)}
-                    type="button"
-                  >
-                    Annuler
-                  </button>
-                </form>
+                <CountryForm
+                  fields={fields}
+                  handleNewInfo={handleNewInfo}
+                  handleDelete={handleDelete}
+                  setEditingCountry={setEditingCountry}
+                  country={editingCountry}
+                />
               ) : (
                 <button
                   className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-2"
@@ -159,6 +163,13 @@ export default function Screen2({
                   Modifier
                 </button>
               )}
+              <button
+                className="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded mt-2"
+                onClick={() => handleDelete(country.iso2)}
+                type="button"
+              >
+                Supprimer
+              </button>
             </li>
           );
         })}
@@ -184,5 +195,7 @@ Screen2.propTypes = {
       iso3: PropTypes.string.isRequired,
     })
   ).isRequired,
+  addCountry: PropTypes.func.isRequired,
   updateCountry: PropTypes.func.isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
