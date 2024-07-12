@@ -1,14 +1,10 @@
 import { useState } from "react";
+import { useOutletContext } from "react-router-dom";
 import PropTypes from "prop-types";
 import CountryForm from "../components/CountryForm";
 
-export default function Screen2({
-  countries,
-  capitals,
-  updateCountry,
-  addCountry,
-  handleDelete, // Add handleDelete prop
-}) {
+export default function CardInfo() {
+  const { capitals, countries, addCountry, updateCountry, handleDelete } = useOutletContext();
   const [editingCountry, setEditingCountry] = useState(null);
   const [editedPopulation, setEditedPopulation] = useState("");
   const [editedLatitude, setEditedLatitude] = useState("");
@@ -86,7 +82,7 @@ export default function Screen2({
         Liste des pays et de leurs informations correspondantes :
       </h1>
       <p className="text-xl text-center mb-8">
-      (L&apos;ajout d&apos;un pays doit se faire avec le nom en anglais)
+        (L&apos;ajout d&apos;un pays doit se faire avec le nom en anglais)
       </p>
       <ul className="invisible group mx-10 [&>*]:visible [&>*]:max-w-[15rem] [&>*]:bg-white [&>*]:p-4 flex flex-wrap justify-center [&>*]:flex-auto [&>*]:m-1 [&>*]:text-center [&>*]:no-underline">
         <form className="flex flex-col mt-10 items-center [&>input]:text-center [&>input]:border-2 [&>input]:border-neutral-600 rounded">
@@ -178,7 +174,7 @@ export default function Screen2({
   );
 }
 
-Screen2.propTypes = {
+CardInfo.propTypes = {
   countries: PropTypes.arrayOf(
     PropTypes.shape({
       name: PropTypes.string.isRequired,

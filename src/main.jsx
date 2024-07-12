@@ -2,22 +2,24 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import App from "./App";
-import Screen1 from "./pages/Screen1";
-import Screen2 from "./pages/Screen2";
+import DisplayMap from "./pages/DisplayMap";
+import CardInfo from "./pages/CardInfo";
+import { CapitalLoader } from "./components/CapitalLoader";
 import "./index.css";
 
 const router = createBrowserRouter([
   {
     element: <App />,
+    loader: CapitalLoader,
     children: [
       {
-        path: "/",
-        element: <Screen1 />,
+        path: "/displayMap",
+        element: <DisplayMap />,
       },
       {
-        path: "/screen2",
-        element: <Screen2 />
-      }
+        path: "/cardInfo",
+        element: <CardInfo />,
+      },
     ],
   },
 ]);

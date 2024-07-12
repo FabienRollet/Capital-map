@@ -24,8 +24,7 @@ The project should now be running locally. You can access it at: http://localhos
 
 As part of the ongoing improvement of this project, here are some suggestions for future iterations:
 
-- **Refactoring of the add form (`Screen2.jsx`)**: The current form could benefit from refactoring to improve code readability and maintainability.
+- **Refactoring of the Add Form (`Screen2.jsx`)**: The current form could benefit from refactoring to improve code readability and maintainability.
+- **Adding Animations**: Integrating subtle animations could enhance the user experience.
 
-- **Adding animations**: Integrating subtle animations could benefit the user experience
-
-- **Enhancement of general styling**: Exploring options to improve the design of the application
+- **Introducing a Dedicated Context**: Implementing a dedicated context would help separate the logic in `app.jsx`, making the codebase more maintainable and easier to manage.
