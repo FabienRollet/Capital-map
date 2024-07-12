@@ -1,6 +1,6 @@
 import React from "react";
 import ReactDOM from "react-dom/client";
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import App from "./App";
 import DisplayMap from "./pages/DisplayMap";
 import CardInfo from "./pages/CardInfo";
@@ -12,6 +12,10 @@ const router = createBrowserRouter([
     element: <App />,
     loader: CapitalLoader,
     children: [
+      {
+        path: "/",
+        element: <Navigate to="/displayMap" replace={true} />,
+      },
       {
         path: "/displayMap",
         element: <DisplayMap />,

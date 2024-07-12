@@ -24,7 +24,7 @@ The project should now be running locally. You can access it at: http://localhos
 
 As part of the ongoing improvement of this project, here are some suggestions for future iterations:
 
-- **Refactoring of the Add Form (`Screen2.jsx`)**: The current form could benefit from refactoring to improve code readability and maintainability.
-- **Adding Animations**: Integrating subtle animations could enhance the user experience.
+- **Refactoring of the Add Form (`CardInfo.jsx`)**: The current form could benefit from refactoring to improve code readability and maintainability.
+- **Adding Animations**: Integrating animations could enhance the user experience.
 
-- **Introducing a Dedicated Context**: Implementing a dedicated context would help separate the logic in `app.jsx`, making the codebase more maintainable and easier to manage.
+- **Introducing a Dedicated Context**: Implementing a dedicated context would help separate the logic in `App.jsx`, making the codebase more maintainable and easier to manage.
